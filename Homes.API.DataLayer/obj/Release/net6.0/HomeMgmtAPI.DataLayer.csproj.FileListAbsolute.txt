@@ -1,0 +1,14 @@
+E:\RawHome\Homes.API.DataLayer\bin\Release\net6.0\HomeMgmtAPI.DataLayer.deps.json
+E:\RawHome\Homes.API.DataLayer\bin\Release\net6.0\HomeMgmtAPI.DataLayer.runtimeconfig.json
+E:\RawHome\Homes.API.DataLayer\bin\Release\net6.0\HomeMgmtAPI.DataLayer.dll
+E:\RawHome\Homes.API.DataLayer\bin\Release\net6.0\HomeMgmtAPI.DataLayer.pdb
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.csproj.AssemblyReference.cache
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.GeneratedMSBuildEditorConfig.editorconfig
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.AssemblyInfoInputs.cache
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.AssemblyInfo.cs
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.csproj.CoreCompileInputs.cache
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.dll
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\refint\HomeMgmtAPI.DataLayer.dll
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.pdb
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\HomeMgmtAPI.DataLayer.genruntimeconfig.cache
+E:\RawHome\Homes.API.DataLayer\obj\Release\net6.0\ref\HomeMgmtAPI.DataLayer.dll

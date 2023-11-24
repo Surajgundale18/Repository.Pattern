@@ -1,0 +1,15 @@
+E:\RawHome\HomeMgmtAPI.BusinessLayer\bin\Release\net6.0\HomeMgmtAPI.BusinessLayer.deps.json
+E:\RawHome\HomeMgmtAPI.BusinessLayer\bin\Release\net6.0\HomeMgmtAPI.BusinessLayer.dll
+E:\RawHome\HomeMgmtAPI.BusinessLayer\bin\Release\net6.0\HomeMgmtAPI.BusinessLayer.pdb
+E:\RawHome\HomeMgmtAPI.BusinessLayer\bin\Release\net6.0\HomeMgmtAPI.DataLayer.dll
+E:\RawHome\HomeMgmtAPI.BusinessLayer\bin\Release\net6.0\HomeMgmtAPI.DataLayer.pdb
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.csproj.AssemblyReference.cache
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.GeneratedMSBuildEditorConfig.editorconfig
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.AssemblyInfoInputs.cache
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.AssemblyInfo.cs
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.csproj.CoreCompileInputs.cache
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.csproj.CopyComplete
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.dll
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\refint\HomeMgmtAPI.BusinessLayer.dll
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\HomeMgmtAPI.BusinessLayer.pdb
+E:\RawHome\HomeMgmtAPI.BusinessLayer\obj\Release\net6.0\ref\HomeMgmtAPI.BusinessLayer.dll
