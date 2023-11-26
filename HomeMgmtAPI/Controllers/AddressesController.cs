@@ -15,7 +15,7 @@ namespace HomeMgmtAPI.Controllers
         {
             this.addressService = addressService;
         }
-        //fdbdfjd
+      
         [HttpGet] //Get/api/Addresses?filteron=city?filterquery=kolhapur
         public async Task<IActionResult> GetAddressAsync([FromQuery] string filetron , string filterquery)
         {
