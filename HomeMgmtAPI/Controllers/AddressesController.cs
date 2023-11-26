@@ -15,7 +15,7 @@ namespace HomeMgmtAPI.Controllers
             this.addressService = addressService;
         }
         //fdbdfjd
-        [HttpGet] //Get/api/Addresses?filteron=city?filterquery=pune
+        [HttpGet] //Get/api/Addresses?filteron=city?filterquery=Mumbai
         public async Task<IActionResult> GetAddressAsync()
         {
             var address = await addressService.GetAddressAsync();
