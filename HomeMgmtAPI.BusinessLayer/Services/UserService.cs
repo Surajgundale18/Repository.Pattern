@@ -5,11 +5,13 @@ using HomeMgmtAPI.BusinessLayer.Models.DTOs.RequestDTOs;
 using HomeMgmtAPI.BusinessLayer.Models.DTOs.ResponseDTOs;
 using HomeMgmtAPI.DataLayer.DataEntities;
 using HomeMgmtAPI.DataLayer.Repositories;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace HomeMgmtAPI.BusinessLayer.Services
@@ -35,6 +37,23 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             this.configuration = configuration;
         }
 
+
+        // password Hashing
+        const int keySize = 64;
+        const int iterations = 350000;
+        HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
+        string HashPasword(string password, byte[] salt)
+        {
+            var hash = Rfc2898DeriveBytes.Pbkdf2(
+                Encoding.UTF8.GetBytes(password),
+                salt,
+                iterations,
+                hashAlgorithm,
+                keySize);
+
+            return Convert.ToHexString(hash);
+        }
+
         public async Task<List<UserResponseDTO>> GetAllUser()
         {
             var users = await userRepositoy.GetAllUser();
@@ -46,7 +65,6 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             var user = await userRepositoy.GetUserByIdAsync(id);
             return (mapper.Map<UserResponseDTO>(user));
         }
-
         public async Task<UserResponseDTO> CreateUserAsync(UserRequestDTO userRequestDTO)
         {
             var validationResult = await createUserRequestValidator.ValidateAsync(userRequestDTO);
@@ -55,7 +73,15 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             {
                 throw new BusinessRuleException(validationResult.Errors);
             }
+
             var user = mapper.Map<User>(userRequestDTO);
+
+            var salt = Encoding.UTF8.GetBytes("test123");
+
+            var hashedPassword = HashPasword(user.Password, salt);
+
+            user.Password = hashedPassword;
+
             var createduser = await userRepositoy.CreateUserAsync(user);
 
             return (mapper.Map<UserResponseDTO>(createduser));
@@ -69,7 +95,6 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             {
                 throw new BusinessRuleException(validationResult.Errors);
             }
-
             var existingUser = await GetUserByIdAsync(id);
             if (existingUser == null)
             {
@@ -77,6 +102,11 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             }
 
             var user = mapper.Map<User>(updateUserRequsetDTO);
+            var salt = Encoding.UTF8.GetBytes("test123");
+
+            var hashedPassword = HashPasword(user.Password, salt);
+
+             user.Password = hashedPassword;
             var updatedUser = await userRepositoy.UpdateUserAsync(id, user);
 
             return (mapper.Map<UserResponseDTO>(updatedUser));
@@ -97,12 +127,17 @@ namespace HomeMgmtAPI.BusinessLayer.Services
 
         public async Task<AuthenticateResponseDTO> AuthenticateAsync(AuthenticateRequestDTO authenticateRequestDTO)
         {
-            var isSuccess = await userRepositoy.AuthenticateAsync(authenticateRequestDTO.UserName, authenticateRequestDTO.Password);
+            var salt = Encoding.UTF8.GetBytes("test123");
+
+            var hashedPassword = HashPasword(authenticateRequestDTO.Password, salt);
+
+            var isSuccess = await userRepositoy.AuthenticateAsync(authenticateRequestDTO.UserName, hashedPassword);
 
             var response = new AuthenticateResponseDTO
             {
                 IsAuthenticated = isSuccess,
             };
+
 
             if (isSuccess)
             {

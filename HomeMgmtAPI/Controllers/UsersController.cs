@@ -1,5 +1,6 @@
 ﻿using HomeMgmtAPI.BusinessLayer.Models.DTOs.RequestDTOs;
 using HomeMgmtAPI.BusinessLayer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HomeMgmtAPI.Controllers
@@ -32,8 +33,9 @@ namespace HomeMgmtAPI.Controllers
             return Ok(userDetails);
         }
 
+        [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> CreateUserAsync([FromBody] UserRequestDTO userRequestDTO)
+        public async Task<IActionResult> RegisterUserAsync([FromBody] UserRequestDTO userRequestDTO)
         {
             try
             {

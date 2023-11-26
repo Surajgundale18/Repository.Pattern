@@ -1,17 +1,10 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using FluentValidation.Results;
 using HomeMgmtAPI.BusinessLayer.Exceptions;
 using HomeMgmtAPI.BusinessLayer.Models.DTOs.RequestDTOs;
 using HomeMgmtAPI.BusinessLayer.Models.DTOs.ResponseDTOs;
 using HomeMgmtAPI.DataLayer.DataEntities;
 using HomeMgmtAPI.DataLayer.Repositories;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HomeMgmtAPI.BusinessLayer.Services
 {
@@ -31,9 +24,9 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             this.createAddressValidator = createAddressValidator;
         }
 
-        public async Task<List<AddressResponseDTO>> GetAddressAsync()
+        public async Task<List<AddressResponseDTO>> GetAddressAsync(string? filetron = null, string? filterquery = null)
         {
-            var address = await addressRepository.GetAddressAsync();
+            var address = await addressRepository.GetAddressAsync(filetron,filterquery);
             
             return (mapper.Map<List<AddressResponseDTO>>(address));
         }
@@ -56,7 +49,7 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             {
                 throw new BusinessRuleException(validatorResult.Errors);
             }
-
+            
             var address = mapper.Map<Address>(createAddresssRequest);
             var createdaddress = await addressRepository.CreateAddressAsync(address);
             return (mapper.Map<AddressResponseDTO>(createdaddress));
@@ -71,23 +64,24 @@ namespace HomeMgmtAPI.BusinessLayer.Services
                 throw new BusinessRuleException(validatorResult.Errors);
             }
 
+            var existingAddress = await GetAddressByIdAsync(id);
+            if (existingAddress == null)
+            {
+                throw new ResourceNotFoundException("Address is not found");
+            }
             var address = mapper.Map<Address>(updateAddressRequestDTO);
             var updatedAddress = await addressRepository.UpdateAddressAsync(id, address);
-            if (updatedAddress == null)
-            {
-                throw new ResourceNotFoundException("Address not found");
-            }
-
             return (mapper.Map<AddressResponseDTO>(updatedAddress));
         }
 
         public async Task<AddressResponseDTO> DeleteAddressAsync(int id)
         {
-            var address = await addressRepository.DeleteAddressAsync(id);
-            if(address == null)
+            var existingAddress= await GetAddressByIdAsync(id);
+            if (existingAddress == null)
             {
                 throw new ResourceNotFoundException("Address not found");
             }
+            var address = await addressRepository.DeleteAddressAsync(id);
             return (mapper.Map<AddressResponseDTO>(address));
         }
 

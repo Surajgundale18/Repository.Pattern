@@ -1,5 +1,6 @@
 ﻿using HomeMgmtAPI.BusinessLayer.Models.DTOs.RequestDTOs;
 using HomeMgmtAPI.BusinessLayer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,11 +15,11 @@ namespace HomeMgmtAPI.Controllers
         {
             this.addressService = addressService;
         }
-        //fdbdfjd
-        [HttpGet]
-        public async Task<IActionResult> GetAddressAsync()
+       
+        [HttpGet]  //Get/api/Addresses?filteron=city?filterquery=Nipani
+        public async Task<IActionResult> GetAddressAsync([FromQuery] string? filetron, [FromQuery] string? filterquery)
         {
-            var address = await addressService.GetAddressAsync();
+            var address = await addressService.GetAddressAsync(filetron,filterquery);
             return Ok(address);
         }
 
@@ -30,13 +31,13 @@ namespace HomeMgmtAPI.Controllers
         }
 
         [HttpPost]
+       
         public async Task<IActionResult> CreateAddressAsync([FromBody] CreateAddresssRequestDTO createAddresssRequest)
         {
             var address = await addressService.CreateAddressAsync(createAddresssRequest);
             return Ok(address);
 
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAddressAsync([FromRoute] int id, [FromBody] UpdateAddressRequestDTO updateAddressRequestDTO)

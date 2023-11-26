@@ -12,7 +12,7 @@ namespace HomeMgmtAPI.BusinessLayer.Services
     {
         Task<AddressResponseDTO> CreateAddressAsync(CreateAddresssRequestDTO createAddresssRequest);
         Task<AddressResponseDTO> DeleteAddressAsync(int id);
-        Task<List<AddressResponseDTO>> GetAddressAsync();
+        Task<List<AddressResponseDTO>> GetAddressAsync(string? filetron = null, string? filterquery = null);
         Task<AddressResponseDTO> GetAddressByIdAsync(int id);
         Task<AddressResponseDTO> UpdateAddressAsync(int id, UpdateAddressRequestDTO updateAddressRequestDTO);
     }

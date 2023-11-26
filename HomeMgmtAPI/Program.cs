@@ -51,40 +51,6 @@ namespace HomeMgmtAPI
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                var message = "";
-                options.Events = new JwtBearerEvents
-                {
-                    OnAuthenticationFailed = ctx =>
-                    {
-                        message += "From OnAuthenticationFailed:\n";
-                        message += FlattenException(ctx.Exception);
-                        return Task.CompletedTask;
-                    },
-                    OnChallenge = ctx =>
-                    {
-                        message += "From OnChallenge:\n";
-                        return Task.CompletedTask;
-
-                    },
-                    OnMessageReceived = ctx =>
-                    {
-                        message = "From OnMessageReceived:\n";
-                        ctx.Request.Headers.TryGetValue("Authorization", out var BearerToken);
-                        if (BearerToken.Count == 0)
-                        {
-                            BearerToken = "no Bearer token sent\n";
-                        }
-
-                        message += "Authorization Header sent: " + BearerToken + "\n";
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = ctx =>
-                    {
-                        Debug.WriteLine("token: " + ctx.SecurityToken.ToString());
-                        return Task.CompletedTask;
-                    }
-                };
-
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
@@ -95,8 +61,8 @@ namespace HomeMgmtAPI
                     ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
                 };
-
             });
+
             builder.Services.AddAuthorization();
 
             var app = builder.Build();

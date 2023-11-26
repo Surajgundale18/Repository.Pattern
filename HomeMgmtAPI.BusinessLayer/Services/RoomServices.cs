@@ -3,6 +3,7 @@ using FluentValidation;
 using HomeMgmtAPI.BusinessLayer.Exceptions;
 using HomeMgmtAPI.BusinessLayer.Models.DTOs.RequestDTOs;
 using HomeMgmtAPI.BusinessLayer.Models.DTOs.ResponseDTOs;
+using HomeMgmtAPI.BusinessLayer.Validators;
 using HomeMgmtAPI.DataLayer.DataEntities;
 using HomeMgmtAPI.DataLayer.Repositories;
 using System.ComponentModel.DataAnnotations;
@@ -14,13 +15,15 @@ namespace HomeMgmtAPI.BusinessLayer.Services
         private readonly IRoomRepository roomRepository;
         private readonly IMapper mapper;
         private readonly IValidator<CreateRoomRequestDTO> createRoomValidator;
+        private readonly IValidator<UpdateRoomRequestDTO> updateRoomValidator;
 
         public RoomServices(IRoomRepository roomRepository,
-            IMapper mapper, IValidator<CreateRoomRequestDTO> createRoomValidator)
+            IMapper mapper, IValidator<CreateRoomRequestDTO> createRoomValidator, IValidator<UpdateRoomRequestDTO> updateRoomValidator)
         {
             this.roomRepository = roomRepository;
             this.mapper = mapper;   
             this.createRoomValidator = createRoomValidator;
+            this.updateRoomValidator = updateRoomValidator;
         }
 
         public async Task<List<RoomResponseDTO>> GetAllRoomsAsync()
@@ -54,23 +57,30 @@ namespace HomeMgmtAPI.BusinessLayer.Services
 
         public async Task<RoomResponseDTO> UpdateRoomAsync(int id, UpdateRoomRequestDTO updateRoomRequestDTO)
         {
-            var updatedRoom = mapper.Map<Room>(updateRoomRequestDTO);
-            var updateRoom = await roomRepository.UpdateRoomAsync(id, updatedRoom);
-            if (updateRoom == null)
+            var validationResult = await updateRoomValidator.ValidateAsync(updateRoomRequestDTO);
+            if (!validationResult.IsValid)
+            {
+                throw new BusinessRuleException(validationResult.Errors);
+            }
+            var existingRoom = await GetRoomByIdAsync(id);
+            if (existingRoom == null)
             {
                 throw new ResourceNotFoundException("Room not found");
             }
+            var updatedRoom = mapper.Map<Room>(updateRoomRequestDTO);
+            var updateRoom = await roomRepository.UpdateRoomAsync(id, updatedRoom);
+           
             return (mapper.Map<RoomResponseDTO>(updateRoom));
         }
 
         public async Task<RoomResponseDTO> DeletRoomAsync(int id)
         {
-            
-            var room = await roomRepository.DeletRoomAsync(id);
-            if (room == null)
+            var existingRoom = await GetRoomByIdAsync(id);
+            if(existingRoom == null)
             {
-                throw new  ResourceNotFoundException("room not found");
+                throw new ResourceNotFoundException("room not found");
             }
+            var room = await roomRepository.DeletRoomAsync(id);   
             return (mapper.Map<RoomResponseDTO>(room));
         }
     }

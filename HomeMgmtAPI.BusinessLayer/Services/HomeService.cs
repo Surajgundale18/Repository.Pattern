@@ -66,25 +66,25 @@ namespace HomeMgmtAPI.BusinessLayer.Services
             {
                 throw new BusinessRuleException(validationResult.Errors);
             }
-
+            var existingHome = await GetHomesByIdAsync(id);
+            if (existingHome == null)
+            {
+                throw new ResourceNotFoundException("Home not found");
+            }
             var request = mapper.Map<Home>(updateHomeRequestDTO);
             var home = await homeRepository.UpdateHomeAsync(id, request);
-            if(home== null)
-            {
-                throw new ResourceNotFoundException("Home not found..");
-            }
+           
             return mapper.Map<HomeResponseDTO>(home);
         }
 
         public async Task<HomeResponseDTO> DeleteHomeAsync(int id)
         {
-            var home = await homeRepository.DeleteHomeAsync(id);
-
-            if (home == null)
+            var existingHome = await GetHomesByIdAsync(id);
+            if (existingHome == null)
             {
-                throw new ResourceNotFoundException("Home not found.");
+                throw new ResourceNotFoundException("Home not found");
             }
-
+            var home = await homeRepository.DeleteHomeAsync(id);
             return (mapper.Map<HomeResponseDTO>(home));
         }
 

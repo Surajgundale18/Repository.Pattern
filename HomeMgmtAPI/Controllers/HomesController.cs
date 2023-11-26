@@ -25,7 +25,6 @@ namespace HomeMgmtAPI.Controllers
             return Ok(homes);
         }
 
-        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetHomesByIdAsync([FromRoute] int id)
         {
@@ -35,7 +34,6 @@ namespace HomeMgmtAPI.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> CreateHomeAsync([FromBody] CreateHomeRequestDTO createHomeRequestDTO)
         {
             try

@@ -1,5 +1,6 @@
 ﻿using HomeMgmtAPI.DataLayer.DataEntities;
 using Microsoft.EntityFrameworkCore;
+using System.Net.NetworkInformation;
 
 namespace HomeMgmtAPI.DataLayer.Repositories
 {
@@ -11,10 +12,20 @@ namespace HomeMgmtAPI.DataLayer.Repositories
             this.dbContext = dbContext;
         }
 
-        public async Task<List<Address>> GetAddressAsync()
+        public async Task<List<Address>> GetAddressAsync(string? filetron = null, string? filterquery = null)
         {
-            var address= await dbContext.Addresses.ToListAsync();
-            return address;
+            //var address= await dbContext.Addresses.ToListAsync();
+            var address = dbContext.Addresses.AsQueryable();
+            // fitering
+            if(string.IsNullOrWhiteSpace(filetron)==false && string.IsNullOrWhiteSpace(filterquery)==false)
+            {
+                if (filetron.Equals("City", StringComparison.OrdinalIgnoreCase))
+                {
+                    address = address.Where(x=> x.City.Contains(filterquery));
+                }
+            }
+
+            return await address.ToListAsync();
         }
 
         public async Task<Address> GetAddressByIdAsync(int id)
