@@ -15,7 +15,7 @@ namespace HomeMgmtAPI.Controllers
             this.addressService = addressService;
         }
         //fdbdfjd
-        [HttpGet]
+        [HttpGet] //Get/api/Addresses?filteron=city?filterquery=pune
         public async Task<IActionResult> GetAddressAsync()
         {
             var address = await addressService.GetAddressAsync();
@@ -29,7 +29,7 @@ namespace HomeMgmtAPI.Controllers
             return Ok(address);
         }
 
-        [HttpPost]
+        [HttpPost] 
         public async Task<IActionResult> CreateAddressAsync([FromBody] CreateAddresssRequestDTO createAddresssRequest)
         {
             var address = await addressService.CreateAddressAsync(createAddresssRequest);
